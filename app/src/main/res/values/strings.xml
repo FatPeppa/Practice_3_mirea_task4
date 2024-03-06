@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Practice_3_mirea_task4</string>
+    <string name="button_check_dogs_text">Посмотреть собак</string>
+    <string name="button_check_cats_text">Посмотреть кошек</string>
+
+    <string name="first_fragment_text">FirstFragment</string>
+    <string name="second_fragment_text">SecondFragment</string>
+</resources>
