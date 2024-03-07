@@ -1,12 +1,15 @@
 package com.example.practice_3_mirea_task4;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -23,8 +26,10 @@ public class SecondFragment extends Fragment {
 
     private static class Item {
         private String text_field;
-        public Item(String text_field) {
+        private Drawable image_field;
+        public Item(String text_field, Drawable image_field) {
             this.text_field = text_field;
+            this.image_field = image_field;
         }
 
         public String getText_field() {
@@ -34,6 +39,10 @@ public class SecondFragment extends Fragment {
         public void setText_field(String text_field) {
             this.text_field = text_field;
         }
+
+        public Drawable getImage_field() {return image_field;}
+
+        public void setImage_field(Drawable image_field) {this.image_field = image_field;}
     }
 
     public class FirstFragmentRecyclerViewAdapter extends
@@ -58,6 +67,7 @@ public class SecondFragment extends Fragment {
                                  holder, int position) {
             Item item = items.get(position);
             holder.textView.setText(item.getText_field());
+            holder.imageView.setImageDrawable(item.getImage_field());
         }
         @Override
         public int getItemCount() {
@@ -66,9 +76,11 @@ public class SecondFragment extends Fragment {
         public class ViewHolder extends
                 RecyclerView.ViewHolder {
             final TextView textView;
+            final ImageView imageView;
             ViewHolder(View view){
                 super(view);
-                textView = view.findViewById(R.id.second_fragment_recycler_view_item);
+                textView = view.findViewById(R.id.second_fragment_list_view_item_text_view);
+                imageView = view.findViewById(R.id.second_fragment_list_view_item_image_view);
             }
         }
     }
@@ -80,8 +92,8 @@ public class SecondFragment extends Fragment {
         RecyclerView itemsList = getActivity().findViewById(R.id.second_fragment_recycler_view);
         List<Item> items = new ArrayList<>();
 
-        for (int i = 0; i < 200; i++) {
-            items.add(new Item("RecyclerView item " + i));
+        for (int i = 0; i < 250; i++) {
+            items.add(new Item("Cat number " + i, getActivity().getDrawable(R.drawable.cats_photo)));
         }
 
         FirstFragmentRecyclerViewAdapter adapter = new FirstFragmentRecyclerViewAdapter(this.getContext(), items);

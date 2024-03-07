@@ -1,13 +1,14 @@
 package com.example.practice_3_mirea_task4;
 
-import android.content.ClipData;
 import android.content.Context;
+import android.graphics.drawable.Drawable;
+import android.media.Image;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -24,9 +25,11 @@ public class FirstFragment extends Fragment {
     }
 
     private static class Item {
+        private Drawable image_field;
         private String text_field;
-        public Item(String text_field) {
+        public Item(String text_field, Drawable image_field) {
             this.text_field = text_field;
+            this.image_field = image_field;
         }
 
         public String getText_field() {
@@ -36,6 +39,10 @@ public class FirstFragment extends Fragment {
         public void setText_field(String text_field) {
             this.text_field = text_field;
         }
+
+        public Drawable getImage_field() {return this.image_field;}
+
+        public void setImage_field(Drawable image_field) {this.image_field = image_field;}
     }
 
     @Override
@@ -44,8 +51,8 @@ public class FirstFragment extends Fragment {
 
         List<Item> items = new ArrayList<>();
 
-        for (int i = 0; i < 200; i++) {
-            items.add(new Item("ListView item " + i));
+        for (int i = 0; i < 250; i++) {
+            items.add(new Item("Dog number " + i, getActivity().getDrawable(R.drawable.dogs_photo)));
         }
 
         ListView itemsList = getActivity().findViewById(R.id.first_fragment_list_view);
@@ -72,9 +79,11 @@ public class FirstFragment extends Fragment {
 
             View view = inflater.inflate(this.layout, parent, false);
 
-            TextView textView = view.findViewById(R.id.first_fragment_list_view_item);
+            ImageView imageView = view.findViewById(R.id.first_fragment_list_view_item_image_view);
+            TextView textView = view.findViewById(R.id.first_fragment_list_view_item_text_view);
             Item item = items.get(position);
             textView.setText(item.getText_field());
+            imageView.setImageDrawable(item.getImage_field());
             return view;
         }
     }
