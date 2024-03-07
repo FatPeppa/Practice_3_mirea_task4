@@ -52,8 +52,8 @@ public class SecondFragment extends Fragment {
         public void setImage_field(Drawable image_field) {this.image_field = image_field;}
     }
 
-    public static class FirstFragmentRecyclerViewAdapter extends
-            RecyclerView.Adapter <FirstFragmentRecyclerViewAdapter.ViewHolder>{
+    public static class SecondFragmentRecyclerViewAdapter extends
+            RecyclerView.Adapter <SecondFragmentRecyclerViewAdapter.ViewHolder>{
         private final LayoutInflater inflater;
         private final List<Item> items;
 
@@ -65,13 +65,13 @@ public class SecondFragment extends Fragment {
         }
         //
 
-        FirstFragmentRecyclerViewAdapter(Context context, List<Item>
+        SecondFragmentRecyclerViewAdapter(Context context, List<Item>
                 items) {
             this.items = items;
             this.inflater = LayoutInflater.from(context);
         }
         @Override
-        public FirstFragmentRecyclerViewAdapter.ViewHolder
+        public SecondFragmentRecyclerViewAdapter.ViewHolder
         onCreateViewHolder(ViewGroup parent, int viewType) {
             View view = inflater.inflate(R.layout.recycler_view_item, parent,
                     false);
@@ -79,7 +79,7 @@ public class SecondFragment extends Fragment {
         }
         @Override
         public void
-        onBindViewHolder(FirstFragmentRecyclerViewAdapter.ViewHolder
+        onBindViewHolder(SecondFragmentRecyclerViewAdapter.ViewHolder
                                  holder, int position) {
             Item item = items.get(position);
             holder.textView.setText(item.getText_field());
@@ -124,12 +124,12 @@ public class SecondFragment extends Fragment {
             items.add(new Item("Cat number " + i, getActivity().getDrawable(R.drawable.cats_photo)));
         }
 
-        FirstFragmentRecyclerViewAdapter adapter = new FirstFragmentRecyclerViewAdapter(this.getContext(), items);
+        SecondFragmentRecyclerViewAdapter adapter = new SecondFragmentRecyclerViewAdapter(this.getContext(), items);
         LinearLayoutManager layoutManager = new
                 LinearLayoutManager(this.getContext().getApplicationContext());
         itemsList.setLayoutManager(layoutManager);
 
-        adapter.setOnClick(new FirstFragmentRecyclerViewAdapter.OnItemClicked() {
+        adapter.setOnClick(new SecondFragmentRecyclerViewAdapter.OnItemClicked() {
             @Override
             public void onItemClick(int position) {
                 View item = itemsList.getLayoutManager().findViewByPosition(position);
