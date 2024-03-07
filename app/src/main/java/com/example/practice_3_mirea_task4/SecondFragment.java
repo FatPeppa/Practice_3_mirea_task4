@@ -3,11 +3,14 @@ package com.example.practice_3_mirea_task4;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
@@ -16,6 +19,8 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,6 +28,8 @@ public class SecondFragment extends Fragment {
     public SecondFragment() {
         super(R.layout.fragment_second);
     }
+
+    private final static String TAG = "SecondFragmentLog";
 
     private static class Item {
         private String text_field;
@@ -45,10 +52,19 @@ public class SecondFragment extends Fragment {
         public void setImage_field(Drawable image_field) {this.image_field = image_field;}
     }
 
-    public class FirstFragmentRecyclerViewAdapter extends
+    public static class FirstFragmentRecyclerViewAdapter extends
             RecyclerView.Adapter <FirstFragmentRecyclerViewAdapter.ViewHolder>{
         private final LayoutInflater inflater;
         private final List<Item> items;
+
+        //
+        private OnItemClicked onClick;
+
+        public interface OnItemClicked {
+            void onItemClick(int position);
+        }
+        //
+
         FirstFragmentRecyclerViewAdapter(Context context, List<Item>
                 items) {
             this.items = items;
@@ -68,6 +84,13 @@ public class SecondFragment extends Fragment {
             Item item = items.get(position);
             holder.textView.setText(item.getText_field());
             holder.imageView.setImageDrawable(item.getImage_field());
+
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    onClick.onItemClick(holder.getAdapterPosition());
+                }
+            });
         }
         @Override
         public int getItemCount() {
@@ -83,6 +106,11 @@ public class SecondFragment extends Fragment {
                 imageView = view.findViewById(R.id.second_fragment_list_view_item_image_view);
             }
         }
+        //
+        public void setOnClick(OnItemClicked onClick){
+            this.onClick=onClick;
+        }
+        //
     }
 
     @Override
@@ -100,6 +128,19 @@ public class SecondFragment extends Fragment {
         LinearLayoutManager layoutManager = new
                 LinearLayoutManager(this.getContext().getApplicationContext());
         itemsList.setLayoutManager(layoutManager);
+
+        adapter.setOnClick(new FirstFragmentRecyclerViewAdapter.OnItemClicked() {
+            @Override
+            public void onItemClick(int position) {
+                View item = itemsList.getLayoutManager().findViewByPosition(position);
+                TextView item_text_view = item.findViewById(R.id.second_fragment_list_view_item_text_view);
+                String item_str = item_text_view.getText().toString();
+
+                Toast.makeText(getActivity(), "Item '" + item_str + "' pressed!", Toast.LENGTH_SHORT).show();
+                Log.d(TAG, "onListViewItemPressed: " + item_str);
+            }
+        });
+
         itemsList.setAdapter(adapter);
     }
 }

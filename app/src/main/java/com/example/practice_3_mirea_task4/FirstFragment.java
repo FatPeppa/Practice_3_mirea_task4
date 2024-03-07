@@ -4,13 +4,16 @@ import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.media.Image;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -23,6 +26,8 @@ public class FirstFragment extends Fragment {
     public FirstFragment() {
         super(R.layout.fragment_first);
     }
+
+    private final static String TAG = "FirstFragmentLog";
 
     private static class Item {
         private Drawable image_field;
@@ -61,6 +66,18 @@ public class FirstFragment extends Fragment {
                 R.layout.list_view_item, items);
         itemsList.setAdapter(adapter);
 
+        itemsList.setOnItemClickListener(new AdapterView.OnItemClickListener(){
+            @Override
+            public void onItemClick(AdapterView<?> parent, View
+                    v, int position, long id)
+            {
+                Item item = (Item) itemsList.getItemAtPosition(position);
+                String item_str = item.getText_field();
+
+                Toast.makeText(getActivity(), "Item '" + item_str + "' pressed!", Toast.LENGTH_SHORT).show();
+                Log.d(TAG, ("onListViewItemPressed: " + item_str));
+            }
+        });
     }
 
     public class FistFragmentListViewAdapter extends ArrayAdapter<Item> {
